@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+
+		<ui:define name="content">
+			<h:head></h:head>
+
+			<h:form>
+
+				<p:growl id="adFailed" life="2000" showDetail="true" />
+				<p:panel id="ajoutClient" header="Ajouter des Compte"
+					style="margin-bottom:10px;">
+
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<p:outputLabel value="Nom:" for="clientNom" />
+						<p:inputText id="clientNom" value="#{ajoutClientMB.nom}" />
+						<p:outputLabel value="Prenom:" for="clientPrenom" />
+						<p:inputText id="clientPrenom" value="#{ajoutClientMB.prenom}" />
+						<p:outputLabel value="Login:" for="clientLogin" />
+						<p:inputText id="clientLogin" value="#{ajoutClientMB.login}" />
+						<h:outputLabel for="pwd1" value="Password : *" />
+
+						<p:password id="pwd1" value="#{ajoutClientMB.password1}"
+							match="pwd2" label="Password " required="true" feedback="true"
+							promptLabel="veuillez entrer un password" weakLabel="faible"
+							goodLabel="moyen" strongLabel="fort" />
+
+
+						<h:outputLabel for="pwd2" value="Confirmation Password : *" />
+						<p:password id="pwd2" value="#{ajoutClientMB.password2}"
+							label="Password 2" required="true" />
+
+						<p:outputLabel value="Adresse:" for="clientAdress" />
+						<p:inputText id="clientAdress" value="#{ajoutClientMB.adress}" />
+						<br />
+						<br />
+						<br />
+						<form id="kk">
+							<p:panel id="ajoutPanel" header="Ajouter des Comptes"
+								style="margin-bottom:10px;">
+
+
+
+
+
+
+
+								<p:messages id="messages" />
+								<h:panelGrid columns="2" cellpadding="5">
+
+
+									<h3 style="margin-top: 0">numero RIB:</h3>
+
+									<h:panelGrid columns="2" style="margin-bottom:5px"
+										cellpadding="1">
+										<p:outputLabel value="" for="comptRib" />
+										<p:inputMask id="comptRib" value="#{ajoutClientMB.rib}"
+											mask="9999-9999-9999-9999" />
+
+									</h:panelGrid>
+
+									<h3 style="margin-top: 0">Type de compte:</h3>
+									<h:panelGrid columns="2" style="margin-bottom:10px"
+										cellpadding="5">
+										<p:outputLabel for="typeC" value="" />
+										<p:selectOneRadio id="typeC"
+											value="#{ajoutClientMB.typeCompte}">
+											<f:selectItem itemLabel="Compte Standard" itemValue="cs" />
+											<f:selectItem itemLabel="Compte Platine" itemValue="cp" />
+											<f:selectItem itemLabel="Compte Epargne" itemValue="ce" />
+										</p:selectOneRadio>
+									</h:panelGrid>
+
+
+
+								</h:panelGrid>
+
+								<p:commandButton value="Ajouter" id="ajoutCompteButton"
+									update="aa,adFailed"
+									actionListener="#{ajoutClientMB.ajouterCompte}"
+									styleClass="ui-priority-primary" />
+
+
+								
+								<p:dataScroller     id="aa" value="#{ajoutClientMB.listComptes}"
+									var="compte" chunkSize="10">
+									<f:facet name="header">
+								 les Comptes ajouté
+        </f:facet>
+
+
+
+									<h:panelGrid columns="2" style="width:100%"
+										columnClasses="logo,detail">
+
+										<p:outputPanel autoUpdate="true"  id="bb">
+											<h:panelGrid columns="2" cellpadding="5">
+
+
+												<h:outputText value="Rib:" />
+												<h:outputText value="#{compte.rib}"
+													style="font-weight: bold" />
+												<h:outputText value="Solde:" />
+												<h:outputText value="#{compte.solde}"
+													style="font-weight: bold" />
+
+											
+
+
+											</h:panelGrid>
+											<p:separator />
+
+
+										</p:outputPanel>
+											<p:commandButton update="aa" type="submit" value="supprimer"
+													id="supprimerCompteButton"
+													
+													 styleClass="ui-priority-primary"
+													oncomplete="#{ajoutClientMB.supprimerCompte()}"  >
+													
+													<f:param name="ribSupp" value="#{compte.rib}"/>
+													</p:commandButton>
+
+
+									</h:panelGrid>
+
+
+								</p:dataScroller>
+
+
+
+
+
+							</p:panel>
+						</form>
+
+					</h:panelGrid>
+
+
+
+
+
+
+
+
+
+
+
+					<p:commandButton value="Envoyer" id="ajax"
+						actionListener="#{ajoutClientMB.ajouterNewClient}"
+						styleClass="ui-priority-primary" update="adFailed aa"
+						action="gestion" />
+
+
+
+
+
+
+
+				</p:panel>
+			</h:form>
+
+
+
+
+			<br />
+
+			<br />
+			<p:separator></p:separator>
+			<br />
+
+			<br />
+			<p:button outcome="gestion" value="retour au menu de gestion "
+				style="width:25pc;"></p:button>
+
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

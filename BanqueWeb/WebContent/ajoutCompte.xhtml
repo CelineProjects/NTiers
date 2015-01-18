@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+
+		<ui:define name="content">
+
+
+			<h:form id="ajoutClientForm">
+				<p:panel id="ajoutPanel" header="Ajouter un Compte"
+					style="margin-bottom:10px;">
+
+
+
+
+
+
+
+					<p:messages id="messages" />
+					<h:panelGrid columns="2" cellpadding="10">
+
+						<h3 style="margin-top: 0">RIB:</h3>
+						<h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="1">
+
+							<p:outputLabel value="" for="comptRib" />
+							<p:inputMask id="comptRib" value="#{ajoutCompteMB.rib}"  mask="9999-9999-9999-9999"/>
+						</h:panelGrid>
+
+
+						<h:panelGrid columns="2" style="margin-bottom:5px" cellpadding="1">
+							<h3 style="margin-top: 0">Nom du Propriétaire Du Compte:</h3>
+							<p:growl id="msgs" showDetail="true" />
+						</h:panelGrid>
+
+
+
+						<p:autoComplete id="clientPojo"
+							value="#{ajoutCompteMB.currentClient}"
+							completeMethod="#{ajoutCompteMB.completeClient}" var="client"
+							itemLabel="#{client.nom}" itemValue="#{client}"
+							forceSelection="true" converter="entitieConverter" />
+
+
+
+
+
+
+						<h3 style="margin-top: 0">Type de compte:</h3>
+						<h:panelGrid columns="1" style="margin-bottom:10px"
+							cellpadding="5">
+
+							<p:selectOneRadio id="typeC" value="#{ajoutCompteMB.typeCompte}">
+								<f:selectItem itemLabel="Compte Standard" itemValue="cs" />
+								<f:selectItem itemLabel="Compte Platine" itemValue="cp" />
+								<f:selectItem itemLabel="Compte Epargne" itemValue="ce" />
+							</p:selectOneRadio>
+						</h:panelGrid>
+
+
+						<p:commandButton value="Ajouter" id="ajoutCompteButton"
+							update="growl" actionListener="#{ajoutCompteMB.ajouterCompte}"
+							styleClass="ui-priority-primary" action="gestion" />
+					</h:panelGrid>
+
+
+
+
+
+
+					<p:growl id="growl" life="2000" showDetail="true" />
+
+
+				</p:panel>
+
+
+			</h:form>
+
+			<br />
+
+			<br />
+			<p:separator></p:separator>
+			<br />
+
+			<br />
+			<p:button outcome="gestion" value="retour au menu de gestion "
+				style="width:25pc;"></p:button>
+
+
+
+
+
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

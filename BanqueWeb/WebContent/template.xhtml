@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<ui:insert name="metadata" />
+<h:head>
+	<title><ui:insert name="title">Banque Mines d'Alès</ui:insert></title>
+	<h:outputStylesheet library="style" name="main.css" />
+</h:head>
+
+<body style="background-position:center top;background-repeat:no-repeat;background-image:url(./resources/img/Logo.png);">
+
+	<table width="100%" border="0">
+		<tr>
+			<td height="81"><h1 align="left" >Banque des Mines d'Alès</h1></td>
+		</tr>
+	</table>
+	<table border="0">
+		<tr>
+			<td width="5%"></td>
+
+			<td><ui:insert name="content" /></td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+
+		<ui:define name="content">
+			<h:head>
+				<h3 style="FONT-SIZE: xx-large; margin-top: 0">
+					Bienvenu(e)
+					<p:outputLabel value="#{clientMB.currentClient.nom}"
+						style="FONT-SIZE: xx-large;margin-top: 0" />
+				</h3>
+			</h:head>
+
+
+
+			<h:form id="mesComptesForm">
+
+
+				<p:carousel value="#{clientMB.currentClient.comptes}"
+					headerText="Mes comptes" var="compte">
+
+
+					<h:panelGrid id="listData" columns="2" style="width:100%"
+						cellpadding="5" columnClasses="label,value">
+
+
+
+
+						<h:outputText value="Id :" />
+						<h:outputText value="#{compte.id}" />
+
+						<h:outputText value="RIB :" />
+						<h:outputText value="#{compte.rib}" />
+
+						<h:outputText value="Découvert autorisé :" />
+						<h:outputText value="#{compte.decouvert}€" />
+
+						<h:outputText value="Interêt :" />
+						<h:outputText value="#{compte.interet}" />
+
+						<h:outputText value="Pénalité :" />
+						<h:outputText value="#{compte.penalite}" />
+
+
+
+						<h:outputText value="Solde:" />
+						<h:outputText value="#{compte.solde}€" />
+
+
+
+
+
+
+
+						<p:growl id="growl" life="2000" />
+
+						<f:facet name="footer">
+							<h:panelGrid columns="10" cellpadding="5">
+								<p:commandButton update="growl "
+									oncomplete="PF('compteDialog').show()" icon="ui-icon-search">
+									<f:setPropertyActionListener value="#{compte}"
+										target="#{operationMB.selectedCompte}" />
+								</p:commandButton>
+								<p:commandButton update="growl "
+									oncomplete="PF('retraitP').show()" value="Retrait">
+
+									<f:setPropertyActionListener value="#{compte}"
+										target="#{operationMB.selectedCompte}" />
+								</p:commandButton>
+								<p:commandButton update="growl " action="operation_d"
+									value="dépôt">
+									<f:setPropertyActionListener value="#{compte}"
+										target="#{operationMB.selectedCompte}" />
+								</p:commandButton>
+								<p:commandButton update="growl " action="operation_v"
+									value="Virement">
+									<f:setPropertyActionListener value="#{compte}"
+										target="#{operationMB.selectedCompte}" />
+								</p:commandButton>
+							</h:panelGrid>
+						</f:facet>
+
+
+
+
+
+
+
+
+
+
+
+					</h:panelGrid>
+
+
+				</p:carousel>
+
+
+
+
+
+
+
+
+
+				<p:dialog header="Effectuer un retrait" widgetVar="retraitP"
+					modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+					id="RetraitP">
+					<h:form>
+
+						<h:panelGrid columns="2" cellpadding="5">
+
+
+							<p:outputLabel for="montantR" value="Montant:" />
+							<p:inputMask id="montantR" value="#{operationMB.montant}"
+								mask="9999.99" />€
+					
+					</h:panelGrid>
+
+						<p:commandButton type="submit" value="retrait" id="retraitButton"
+							actionListener="#{operationMB.ret()}"
+							styleClass="ui-priority-primary"
+							oncomplete="operation?faces-redirect=true" />
+
+					</h:form>
+				</p:dialog>
+
+
+				<p:dialog header="Effectuer un dépôt" widgetVar="depotP"
+					modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+					id="DepotP">
+
+					<form>
+
+						<h:panelGrid columns="2" cellpadding="5">
+
+							<p:outputLabel for="mtD" value="Montant:" />
+							<p:inputMask id="mtD" value="#{operationMB.montant}"
+								mask="9999.99" />€
+								
+					
+					</h:panelGrid>
+						<p:commandButton type="submit" value="dépôt" id="depotButton"
+							action="#{operationMB.depot()}" styleClass="ui-priority-primary"
+							oncomplete="operation?faces-redirect=true" />
+
+
+
+					</form>
+
+				</p:dialog>
+
+
+
+
+
+
+
+
+				<p:dialog header="Historique" widgetVar="compteDialog" modal="true"
+					showEffect="fade" hideEffect="fade" resizable="false"
+					id="compteDetail">
+
+					<p:outputPanel id="operationC"
+						style="text-align:center;margin-bottom:10px;" autoUpdate="true">
+
+						<p:dataTable var="hist"
+							rendered="#{not empty operationMB.selectedCompte}"
+							value="#{operationMB.selectedCompte.historique.mouvements}">
+							<p:column headerText="Date">
+								<h:outputText value="#{hist.date}" />
+							</p:column>
+
+							<p:column headerText="éffectuer par">
+								<h:outputText value="#{hist.name}" />
+							</p:column>
+
+							<p:column headerText="Type d'operation">
+								<h:outputText value="#{hist.type}" />
+							</p:column>
+
+							<p:column headerText="Montant">
+								<h:outputText value="#{hist.montant}" />
+							</p:column>
+						</p:dataTable>
+
+
+					</p:outputPanel>
+
+
+				</p:dialog>
+
+
+
+
+
+
+
+				<br />
+
+				<br />
+				<p:separator></p:separator>
+				<br />
+
+				<br />
+
+				<p:button outcome="home" value="Retour à la page d'accueil "
+					style="width:25pc;"></p:button>
+
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

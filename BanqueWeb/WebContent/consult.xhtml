@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+
+		<ui:define name="content">
+			<h:head></h:head>
+
+			<h:form id="ajoutClientForm">
+
+
+				<p:carousel  value="#{consultMB.comptes}"
+					headerText="Les comptes" var="compte" 
+					>
+
+
+					<h:panelGrid id="listData" columns="2" style="width:100%" cellpadding="5"
+						columnClasses="label,value">
+
+
+
+
+						<h:outputText value="Id:" />
+						<h:outputText value="#{compte.id}" />
+
+						<h:outputText value="RIB:" />
+						<h:outputText value="#{compte.rib}" />
+
+						<h:outputText value="Nom du propriétaire:" />
+						<h:outputText value="#{compte.client.nom}" style="color:'Red'" />
+
+						<h:outputText value="Solde:" />
+						<h:outputText value="#{compte.solde}€" />
+
+
+
+
+
+
+
+<p:growl id="growl" life="2000" />
+
+						<f:facet name="footer">
+						
+							<p:commandButton update="growl "
+								oncomplete="PF('compteDialog').show()" icon="ui-icon-search">
+								<f:setPropertyActionListener value="#{compte}"
+									target="#{consultMB.selectedCompte}" />
+							</p:commandButton>
+						</f:facet>
+						
+
+
+
+
+					</h:panelGrid>
+
+
+				</p:carousel>
+
+
+
+				<p:dialog header="compte Info" widgetVar="compteDialog"  modal="true"
+					showEffect="fade" hideEffect="fade" resizable="false" id="compteDetail">
+					<p:outputPanel  style="text-align:center;" autoUpdate="true">
+
+
+
+						<p:panelGrid columns="2"
+							rendered="#{not empty consultMB.selectedCompte}"
+							columnClasses="label,value">
+
+
+
+							<h:outputText value="Id:" />
+							<h:outputText value="#{consultMB.selectedCompte.id}" />
+
+							<h:outputText value="RIB:" />
+							<h:outputText value="#{consultMB.selectedCompte.rib}" />
+
+							<h:outputText value="Nom du propriétaire:" />
+							<h:outputText value="#{consultMB.selectedCompte.client.nom}" style="color:'Red'" />
+
+							<h:outputText value="Solde:" />
+							<h:outputText value="#{consultMB.selectedCompte.solde}€" />
+							<p:growl id="growle" life="2000" />
+							<p:commandButton type="submit" value="supprimer" id="supprimerCompteButton"
+						 actionListener="#{consultMB.suprimerCompte()}" update="growle"
+						styleClass="ui-priority-primary" oncomplete="consult?faces-redirect=true" />
+						
+					</p:panelGrid>
+					
+					
+					</p:outputPanel>
+				</p:dialog>
+				
+
+
+			</h:form>
+			
+			<br  />
+			
+			<br  />
+			<p:separator></p:separator>
+			<br  />
+			
+			<br  />
+			<p:button outcome="gestion" value="retour au menu de gestion " style="width:25pc;" ></p:button>
+
+
+
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

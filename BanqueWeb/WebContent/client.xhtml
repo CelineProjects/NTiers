@@ -1,0 +1,74 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+
+		<ui:define name="content">
+			<h:head></h:head>
+
+			<h:form>
+				<p:growl id="msgs" showDetail="true" />
+
+				<h:panelGrid columns="2" cellpadding="7">
+
+					<p:outputLabel value="Veuilez entrer Votre Nom:" for="clientPojo" />
+					<p:autoComplete id="clientPojo" value="#{clientMB.currentClient}"
+						completeMethod="#{clientMB.completeClient}" var="client"
+						itemLabel="#{client.nom}" itemValue="#{client}"  forceSelection="true"  converter="entitieConverter"/>
+						
+
+
+
+				</h:panelGrid>
+
+				<p:commandButton value="Log" icon="ui-icon-check"
+					update="auth msgs clientPojo" oncomplete="PF('dlg').show()" />
+				<!-- action="" -->
+
+
+				<p:dialog id="dlg" header="Bienvenue chèr()e #{clientMB.currentClient.nom}"
+					resizable="false" showEffect="fade" widgetVar="dlg" >
+					<p:growl id="passERR" showDetail="true" />
+					
+					<p:panel id="auth"  columns="2" >
+
+						<p:outputLabel value="Login:" for="clientLogin" />
+						<p:inputText id="clientLogin" value="#{clientMB.login}" />
+						<p:outputLabel value="Password:" for="clientPass" />
+						<p:password id="clientPass" value="#{clientMB.password}" />
+					</p:panel>
+					<p:commandButton id="logButton" value="OK" icon="ui-icon-check" 
+					update="passERR"  actionListener="#{clientMB.log()}"  oncomplete="operation?faces-redirect=true"
+					 />
+					 <p:commandButton id="anulButton" value="Annuler" icon="ui-icon-check" onclick="dlg.hide();"
+					 />
+					
+				</p:dialog>
+			</h:form>
+
+
+			<br />
+
+			<br />
+			<p:separator></p:separator>
+			<br />
+
+			<br />
+			<p:lightBox>sssssssssssssssssssssssssssss</p:lightBox>
+			<p:button outcome="home" value="Home" style="width:12.5pc;"></p:button>
+			<p:lightBox>sssssssssssssssssssssssssssss</p:lightBox>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+
+
+<h:body>
+	<ui:composition template="/template.xhtml">
+
+		<ui:define name="content">
+			<h:head>
+				<h3 style="FONT-SIZE: xx-large; margin-top: 0">
+					Bienvenu(e)
+					<p:outputLabel value="#{clientMB.currentClient.nom}"
+						style="FONT-SIZE: xx-large;margin-top: 0" />
+				</h3>
+			</h:head>
+
+
+
+			<h:form id="vire">
+
+
+				<p:panel header="Effectuer un dépôt">
+
+
+
+					<h:panelGrid columns="2" cellpadding="5">
+
+						<p:outputLabel for="mtD" value="Montant:" />
+						<p:inputMask id="mtD" value="#{operationMB.montant}"
+							mask="9999.99" />€
+								
+					
+					</h:panelGrid>
+					<p:growl id="growl" life="2000" showDetail="true" />
+					
+
+					<p:commandButton type="submit" value="dépôt" id="depotButton"
+						actionListener="#{operationMB.depot()}"
+						styleClass="ui-priority-primary"
+						update="growl" oncomplete="operation?faces-redirect=true" />
+
+
+				</p:panel>
+
+
+
+
+
+				<br />
+
+				<br />
+				<p:separator></p:separator>
+				<br />
+
+				<br />
+
+				<p:button outcome="operation" value="Retour  "
+					style="width:25pc;"></p:button>
+
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>
